@@ -1,6 +1,6 @@
 # DevOps Essentials
 
-DevOps Culture
+## DevOps Culture
 
 DevOps is a software engineering culture and practice that aims at unifying software development (Dev) and software operations (Ops).
 
@@ -17,22 +17,27 @@ DevOps is not a standard, in that there are no official standards, there are bes
 DevOps and Agile often go hand-in-hand
 
 Under traditional separation between Dev and Ops, they have different and opposing goals:
-	• Development -> Speed
-	• Operations -> Stability
+
+ - Development -> Speed
+
+ - Operations -> Stability
 
 Within a DevOps culture, both teams share the same goals and are measured by the same goals.
 
-DevOps Goals
+## DevOps Goals
 
 DevOps goals are related to two things: Speed and Stability
 
 These goals include things like:
-	• Fast time-to-market (TTM)
-		○ Time from code being finished to being deployed to production and working;
-	• Few production failures
-	• Immediate recovery from failures
 
-Build Automation
+ - Fast time-to-market (TTM)
+		○ Time from code being finished to being deployed to production and working;
+
+ - Few production failures
+
+ - Immediate recovery from failures
+
+## Build Automation
 
 Build automation: automation of the process of preparing code for deployment to a live environment
 
@@ -50,13 +55,18 @@ Build automation is independent of an IDE.
 As much as possible, build automation should be agnostic of the machine that it is built on. 
 
 Why do build automation:
-	• Fast - Handles tasks that would otherwise need to be done manually;
-	• Consistent - The build happens the same way every time;
-	• Repeatable - The build can be done multiple times with the same result. Any version of the source code can always be transformed into deployable code in a consistent way;
-	• Portable - The build can be done the same way on any machine;
-	• Reliable
 
-Continuous Integration (CI)
+ - Fast - Handles tasks that would otherwise need to be done manually;
+
+ - Consistent - The build happens the same way every time;
+
+ - Repeatable - The build can be done multiple times with the same result. Any version of the source code can always be transformed into deployable code in a consistent way;
+
+ - Portable - The build can be done the same way on any machine;
+
+ - Reliable
+
+## Continuous Integration (CI)
 
 Continuous Integration is the practice of frequently merging code changes done by developers.
 
@@ -74,14 +84,19 @@ If there is any problem with the build, the CI server imediatelly and automatica
 
 If anyone commits code that "breaks the build", they are responsible for fixing the problem or rolling back their changes immediately so that other developers can continue working.
 
-Why do CI?
-	• Early detection of certain types of bugs - If code doesn't compile or an automated test fails, the developers are notified and can fix it immediately. The sooner these bugs are detected, the easier they are to fix;
-	• Eliminate the scramble to integrate just before a big release - The code is constatly merged, so there is no need to do a big merge at the end;
-	• Makes frequent releases possible - Code is always in a state that can be deployed to production;
-	• Makes continous testing possible - Since the code can always be run, QA testers can get their hands on it all throughout the development proccess, not just at the end;
-	• Encourages good coding practices - Frequent commits encourages simple, modular code;
+### Why do CI?
 
-Continuous Delivery and Continuous Deployment
+ - Early detection of certain types of bugs - If code doesn't compile or an automated test fails, the developers are notified and can fix it immediately. The sooner these bugs are detected, the easier they are to fix;
+
+ - Eliminate the scramble to integrate just before a big release - The code is constatly merged, so there is no need to do a big merge at the end;
+
+ - Makes frequent releases possible - Code is always in a state that can be deployed to production;
+
+ - Makes continous testing possible - Since the code can always be run, QA testers can get their hands on it all throughout the development proccess, not just at the end;
+
+ - Encourages good coding practices - Frequent commits encourages simple, modular code;
+
+## Continuous Delivery and Continuous Deployment
 
 Continous Delivery is the practice of continously maintaining code in a deployable state.
 
@@ -98,34 +113,50 @@ There is no standard for how often you should deploy, but the more often the bet
 With continous deployment, deployments to production are routine and commonplace. They are not a big, scary event.
 
 What does continuous delivery and deployment look like?
-	• Each version of the code goes through a series of stages such as automated build, testing and manual acceptance testing;
-	• The result of this process is an artifact or package that is able to be deployed;
-	• When the decision is made to deploy, the deployment is automated;
-	• If a deployment causes a problem, it is quickly and reliably rolled back using an automated process;
-	• Rollbacks aren't a big deal, because the developers can redeploy a fixed version as soon as they have one available.
-	• This makes pushing to production and rollbacks less of an obstacle, because code can be rolled back and rolled forward automatically;
+
+ - Each version of the code goes through a series of stages such as automated build, testing and manual acceptance testing;
+
+ - The result of this process is an artifact or package that is able to be deployed;
+
+ - When the decision is made to deploy, the deployment is automated;
+
+ - If a deployment causes a problem, it is quickly and reliably rolled back using an automated process;
+
+ - Rollbacks aren't a big deal, because the developers can redeploy a fixed version as soon as they have one available.
+
+ - This makes pushing to production and rollbacks less of an obstacle, because code can be rolled back and rolled forward automatically;
 
 Why should continous delivery and deployment should be done:
-	• Faster time-to-market;
-	• Fewer problems caused by the deployment process - Since the deployment process is frequently used, any problems with the process are easily discovered;
-	• Lower risk - The more changes that are deployed at once, the higher the risk. Frequent deployments of less changes are less risky;
-	• Reliable rollbacks - Robus automation means rollbacks are a reliable way to ensure stability for customers, and they don't hurt developers because they can roll forward with a fix, as soon as they have one;
-	• Fearless deployments - Robust automation plus the ability to rollback quickly means deployments are commonplace, everyday events rather than big, scary events;
 
-Infrastructure as Code
+ - Faster time-to-market;
+
+ - Fewer problems caused by the deployment process - Since the deployment process is frequently used, any problems with the process are easily discovered;
+
+ - Lower risk - The more changes that are deployed at once, the higher the risk. Frequent deployments of less changes are less risky;
+
+ - Reliable rollbacks - Robus automation means rollbacks are a reliable way to ensure stability for customers, and they don't hurt developers because they can roll forward with a fix, as soon as they have one;
+
+ - Fearless deployments - Robust automation plus the ability to rollback quickly means deployments are commonplace, everyday events rather than big, scary events;
+
+## Infrastructure as Code
 
 Infrastructure as Code (IaC): manage and provision infrastructure through code and automation.
 
 Automation and code is used to create and change infrastructure.
 
-Why do IaC?
-	• Consistency creation and management of resources - The same automation will run the same way every time;
-	• Reusability - Code can be used to make the same change consistently across multiple hosts and can be used again in the future;
-	• Scalability - A new instance can be configured exacltly the same way as the existing one in minuter;
-	• Self-documenting - Changes to infrastructure document themselves to a degree;
-	• Simplify the complexity - Complex infrastructures can be stood up quickly once they are defined as code;
+### Why do IaC?
 
-Configuration Management
+ - Consistency creation and management of resources - The same automation will run the same way every time;
+
+ - Reusability - Code can be used to make the same change consistently across multiple hosts and can be used again in the future;
+
+ - Scalability - A new instance can be configured exacltly the same way as the existing one in minuter;
+
+ - Self-documenting - Changes to infrastructure document themselves to a degree;
+
+ - Simplify the complexity - Complex infrastructures can be stood up quickly once they are defined as code;
+
+## Configuration Management
 
 Configuration Management: maintaining and changing the state of pieces of infrastructure in a consistent, maintainable, and stable way.
 
@@ -136,41 +167,56 @@ Configuration management allows you to minimize configuration drift - the small 
 IaC is very beneficial for configuration management.
 
 Benefits of configuration management:
-	• Save time - it takes less time to change the configuration;
-	• Insight - With good configuration management, you can know about the state of all pieces of a large and complex infrastructure;
-	• Maintainability - A more maintainable infrastructure is easier to change in a stable way;
-	• Less configuration drift - It is easier to keep a standard configuration across a multitude of hosts;
 
-Orchestration
+ - Save time - it takes less time to change the configuration;
+
+ - Insight - With good configuration management, you can know about the state of all pieces of a large and complex infrastructure;
+
+ - Maintainability - A more maintainable infrastructure is easier to change in a stable way;
+
+ - Less configuration drift - It is easier to keep a standard configuration across a multitude of hosts;
+
+## Orchestration
 
 Ocherstration: automation that supports processes and workflows, such as provisioning resources.
 
 With orchestration, managing a complex infrastructure is less like being a builder and more like conducting an orchestra.
 
 Instead of going out and creating a piece of infrastructure, the conductor simply signals what needs to be done and the orchestra performs it:
-	• The conductor does not need to control every detail;
-	• The musicians (automation) are able to perform their piece with only a little bit of guidance;
+
+ - The conductor does not need to control every detail;
+
+ - The musicians (automation) are able to perform their piece with only a little bit of guidance;
 
 Benefits of orchestration:
-	• Scalability - Resources can be quicky increased or decreased to meet changing needs;
-	• Stability - Automation tools can automatically responde to fix problems before users see them;
-	• Save time - Certain tasks and workflows can be automated, freeing up engineer's time;
-	• Self-service - Orchestration can be used to offer resources to customers in a self-service fashion;
-	• Granular insight into resource usage - orchestration tools give greater insight into how many resources are being used by what software, services, or customers
 
-Monitoring
+ - Scalability - Resources can be quicky increased or decreased to meet changing needs;
+
+ - Stability - Automation tools can automatically responde to fix problems before users see them;
+
+ - Save time - Certain tasks and workflows can be automated, freeing up engineer's time;
+
+ - Self-service - Orchestration can be used to offer resources to customers in a self-service fashion;
+
+ - Granular insight into resource usage - orchestration tools give greater insight into how many resources are being used by what software, services, or customers
+
+## Monitoring
 
 Monitoring: the collection and presentation of data about the performance and stability of services and infrastructure.
 
 The collected data is presented in various forms, such as charts and graphs, or in the form of real-time notifications about problems.
 
 Benefits:
-	• Fast recovery - the sooner a problem is detected, the sooner it can be fixed;
-	• Better root cause analysis - The more data you have, the easier it is to determine the root cause of a problem;
-	• Visibility across teams - Good monitoring tools give useful data to both developers and operations people about the performance of code in production;
-	• Automated response - Monitoring data can be used alongside orchestration to provide automated responses to events, such as automated recovery from failures;
 
-Microservices
+ - Fast recovery - the sooner a problem is detected, the sooner it can be fixed;
+
+ - Better root cause analysis - The more data you have, the easier it is to determine the root cause of a problem;
+
+ - Visibility across teams - Good monitoring tools give useful data to both developers and operations people about the performance of code in production;
+
+ - Automated response - Monitoring data can be used alongside orchestration to provide automated responses to events, such as automated recovery from failures;
+
+## Microservices
 
 Microservices: a microservice architecture breaks an application up into a collection of small, loosely-coupled services.
 
@@ -185,9 +231,12 @@ There are many different ways to structure and organize a microservice architect
 Each of the pieces of an application would have its own codebase and a separate running process (or processes). They can all be build, deployed and even scaled separately.
 
 Benefits:
-	• Modularity
-	• Technological flexibility - You don't need to use the same languages and technologies for every part of the app. You can use the best tool for each job;
-	• Optimized scalability - You can scale individual parts of the app, based upon resource usage and load of each part;
+
+ - Modularity
+
+ - Technological flexibility - You don't need to use the same languages and technologies for every part of the app. You can use the best tool for each job;
+
+ - Optimized scalability - You can scale individual parts of the app, based upon resource usage and load of each part;
 
 For smaller, simpler app, a monolith might be easier to manage.
 
@@ -196,84 +245,126 @@ Tool quick starts are quick and small courses
 
 ## DevOps and the Cloud
 
-Google Cloud Platform
+### Google Cloud Platform
 
 Google App Engine:
-	• PaaS - Deploy your code, don't worry about the rest;
-	• Built in support for microservices;
-	• Out-of-the box autoscaling;
-	• Certain configurations can be considered serverless;
+
+ - PaaS - Deploy your code, don't worry about the rest;
+
+ - Built in support for microservices;
+
+ - Out-of-the box autoscaling;
+
+ - Certain configurations can be considered serverless;
 
 Google Compute Engine:
-	• IaaS - Deploy and orchestrate clusters of VMs on Google's architecture;
-	• Built-in orchestration;
-	• Works with app engine;
-	• Can be managed with configuration management tools;
+
+ - IaaS - Deploy and orchestrate clusters of VMs on Google's architecture;
+
+ - Built-in orchestration;
+
+ - Works with app engine;
+
+ - Can be managed with configuration management tools;
 
 Google Cloud Functions:
-	• FaaS/Serverless solution
+
+ - FaaS/Serverless solution
 
 Google Cloud SDK:
-	• An SDK for interacting with GCP APIs;
-	• Makes it easy to build your own tools and automations that interact with GCP;
+
+ - An SDK for interacting with GCP APIs;
+
+ - Makes it easy to build your own tools and automations that interact with GCP;
 
 Stackdrive:
-	• GCP's monitoring solution;
-	• Monitoring, logging and diagnostics for your GCP services;
-	• Also works with AWS;
+
+ - GCP's monitoring solution;
+
+ - Monitoring, logging and diagnostics for your GCP services;
+
+ - Also works with AWS;
 
 Cloud Deployment Manager:
-	• Declarative configuration for you GCP stack;
-	• IaC and automated deployment;
-	• YAML-based;
+
+ - Declarative configuration for you GCP stack;
+
+ - IaC and automated deployment;
+
+ - YAML-based;
 
 Google Kubernetes Engine:
-	• Orchestration on GCP with Kubernetes;
-	• Do continous integration with Jenkins on Kubernetes Engine;
 
-Microsoft Azure DevOps
+ - Orchestration on GCP with Kubernetes;
+
+ - Do continous integration with Jenkins on Kubernetes Engine;
+
+### Microsoft Azure DevOps
 
 Continous Integration, Delivery and Deployment:
-	• Visual Studio Team Services - source control and CI;
-	• Jenkins - CI for Java apps;
-	• Continuous Deployment Triggers - automated deployment trigger integrated with CI;
+
+ - Visual Studio Team Services - source control and CI;
+
+ - Jenkins - CI for Java apps;
+
+ - Continuous Deployment Triggers - automated deployment trigger integrated with CI;
 
 Orchestration:
-	• Azure Container Registry;
-	• Azure Container Service - Kubernetes orchestration;
-	• Azure Web Apps - Cloud hosting for web apps integrated with the DevOps pipeline
+
+ - Azure Container Registry;
+
+ - Azure Container Service - Kubernetes orchestration;
+
+ - Azure Web Apps - Cloud hosting for web apps integrated with the DevOps pipeline
 
 Monitoring:
-	• Azure Application Insights - APM, diagnostics and analytics. Supports machine learning;
+
+ - Azure Application Insights - APM, diagnostics and analytics. Supports machine learning;
 
 Faas/Serverless:
-	• Azure functions;
 
-Amazon Web Services
+ - Azure functions;
+
+### Amazon Web Services
 
 Amazon EC2 (Elastic Compute Cloud):
-	• IaaS;
-	• Easily scalable;
-	• Full control over your cloud infrastructure;
-	• Integrates with tons of tools;
+
+ - IaaS;
+
+ - Easily scalable;
+
+ - Full control over your cloud infrastructure;
+
+ - Integrates with tons of tools;
 
 AWS Elastic Beanstalk:
-	• PaaS;
-	• Out-of-the-box load balancing and autoscaling;
-	• Can still access underlying AWS resources with full control;
+
+ - PaaS;
+
+ - Out-of-the-box load balancing and autoscaling;
+
+ - Can still access underlying AWS resources with full control;
 
 Continuous Integration, Delivery and Deployment:
-	• AWS CodeBuild;
-	• AWS CodeDeploy;
-	• AWS CodePipeline - full code pipeline from build to deploy;
-	• AWS CodeStar - integrates all parts process with project management and Jira issue tracking;
+
+ - AWS CodeBuild;
+
+ - AWS CodeDeploy;
+
+ - AWS CodePipeline - full code pipeline from build to deploy;
+
+ - AWS CodeStar - integrates all parts process with project management and Jira issue tracking;
 
 Infrastructure as Code:
-	• CloudFormation - Stack templating engine, YAML, or JSON-based;
-	• OpsWorks - IaC with Chef;
+
+ - CloudFormation - Stack templating engine, YAML, or JSON-based;
+
+ - OpsWorks - IaC with Chef;
 
 Serverless/FaaS:
-	• AWS Lambda - run serverless functions on AWS;
+
+ - AWS Lambda - run serverless functions on AWS;
 
 Monitoring:
-	• Amazon Cloudwatch - track metrics and logs, set alarms, and automate responses to monitoring data;
+
+ - Amazon Cloudwatch - track metrics and logs, set alarms, and automate responses to monitoring data;
