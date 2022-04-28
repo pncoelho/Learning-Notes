@@ -1,6 +1,6 @@
 # AWS Essential
 
-![Project Omega 2.0 Diagram](C:\GitProjects\Learning-Notes\CloudGuru\media\aws_essentials_project_omega_diagram.png)
+![Project Omega 2.0 Diagram](./media/aws_essentials_project_omega_diagram.png)
 
 ### Internet Gateway (IGW) rules:
 
