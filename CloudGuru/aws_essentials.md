@@ -49,4 +49,13 @@ Route Table (RT) rules:
 
 ### Security Groups
 
-**Network ACLs** apply at the **subnet level**, while **Security Groups** apply at the **Instance level**.
+Differences between **NACLs** and **SGs**:
+
+- **Network ACLs** apply at the **subnet level**, while **Security Groups** apply at the **Instance level**;
+- **NACLs** have rule numbers, **SGs** don't;
+- **NACLs** can have deny statements, **SGs** cannot;
+- **NACLs** are **stateless**, while **SGs** are **stateful**;
+
+New Security Groups allow **all traffic out** and **no traffic in**.
+
+![](./media/sg_new_security_group.png)
