@@ -59,3 +59,7 @@ Differences between **NACLs** and **SGs**:
 New Security Groups allow **all traffic out** and **no traffic in**.
 
 ![](./media/sg_new_security_group.png)
+
+### EC2 to Internet Steps
+
+![](./media/ip_ec2_internet_access.png)
