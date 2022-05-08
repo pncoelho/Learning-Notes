@@ -215,5 +215,48 @@ Versioning rules:
 - Suspending versioning **only prevents new versions**, while maintaining all previous versions in storage;
 - Versioning can **only be set on the bucket level**, applying to all objects in the bucket;
 
+### Databases
 
+Two main categories of databases:
 
+- Relational Databases, known as "*SQL*";
+- Non-Relational Databases, known as "*NoSQL*";
+
+AWS offers both:
+
+- **RDS** for **SQL**;
+- **DynamoDB** for **NoSQL**;
+
+**RDS** is a **SQL database service** that provides a wide range of SQL database options.
+
+**DynamoDB** is a **NoSQL database service**.
+
+Differences between SQL and NoSQL:
+
+- SQL
+  - Stores related data in tables;
+  - Typically used for very structured data, such as contact lists;
+- NoSQL
+  - Stores related data in JSON-like, name-value documents;
+  - Typically used for non-structured data, such as cataloging documents;
+
+### Pricing
+
+Charging varies a bit between RDS and DynamoDB:
+
+- RDS
+  - The **engine choosen**;
+    - **Amazon Aurora is not free**;
+  - The **RDS Instance Class**;
+    - Similar to EC2 instance type;
+  - **Purchasing Terms**;
+    - On Demand;
+    - Reserved;
+  - **Database Storage**;
+  - **Data Transfer** in/out of RDS
+- DynamoDB
+  - **Provisioned Throughput Capacity**;
+  - **Indexed Data Storage**;
+  - **DynamoDB Streams**;
+  - **Reserved Capacity**;
+  - **Data Transfer** in/out of DynamoDB;
