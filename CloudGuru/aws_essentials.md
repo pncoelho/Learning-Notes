@@ -148,7 +148,8 @@ The default storage class is **standard**, but this can be changed at any time.
 The available classes are:
 
 - **Standard**
-  - Designed for general, all-purpose storage
+  - Designed for general, all-purpose storage;
+  - Business critical objects and objects with frequent access;
   - Default storage option;
   - Most expensive class;
 - **Intelligent-Tiering**:
@@ -159,12 +160,60 @@ The available classes are:
   - Designed for objects that are not accessed frequently but must be immediately available when accessed;
   - S3 standard Infrequen Access;
   - Less expensive than the standard storage class;
+  - But they do have a retrieval fee for acessing objects;
 - **One Zone-Infrequent Access**
   - Designed for non-critical, reproducible objects;
+  - Single Availability Zone;
 - **Glacier**
   - Designed for long-term archival storage;
+  - Useful for backup and compliance;
   - May take several hours for objects stored in Glacier to be retrieved;
   - Low-cost S3 storage class;
 - **Glacier Deep Archive**
   - Designed for long-term archival storage;
   - Cheapest S3 storage class;
+
+The change to Glacier may take one to two days to take effect
+
+#### S3 Object Lifecycle
+
+An object lifecycles is a set of rules that automate the migration of an object's to a different storage class, or its deletion, based on specified time intervals.
+
+The lifecycle's functionality is located on the bucket level. However, it can be applied to:
+
+- The entire bucket;
+- One specific folder;
+- One specific object;
+
+#### S3 Permissions
+
+S3 permissions grant granular control over who can view, access, and use specific buckets and objects.
+
+They can be defined on the bucket and object level:
+
+- **Bucket**
+  - **List** - who can see the bucket name;
+  - **Upload/Delete**
+  - **Permissions**
+- **Object**
+  - **Open/Download**
+  - **View**
+  - **Edit**
+
+Bucket level permissions are generally used for "internal" access control.
+
+Objects can be shared via link.
+
+#### S3 Versioning
+
+Keeps track of and stores all versions of an object so that you can access and use an older version.
+
+Versioning rules:
+
+- It's either ON or OFF;
+- Once it is turned ON, versioning **can only be suspended**, meaning it cannot be fully turned OFF;
+- Suspending versioning **only prevents new versions**, while maintaining all previous versions in storage;
+- Versioning can **only be set on the bucket level**, applying to all objects in the bucket;
+
+
+
