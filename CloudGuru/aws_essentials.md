@@ -1,5 +1,7 @@
 # AWS Essential
 
+https://interactive.linuxacademy.com/diagrams/ProjectOmega2.html
+
 ![Project Omega 2.0 Diagram](./media/aws_essentials_project_omega_diagram.png)
 
 
@@ -107,7 +109,7 @@ Charging for S3 buckets is done in two ways:
    - Data Archival;
    - Data Restorartion;
 
-#### Bucket, Folder and Object Properties
+#### S3 Properties
 
 - **Bucket**
   - General Info
@@ -130,3 +132,39 @@ Charging for S3 buckets is done in two ways:
   - Permissions
   - Metadata
 
+#### S3 Storage Class
+
+Represents the **classification** assigned to each object in S3.
+
+This classification dictates things like:
+
+- Storage cost
+- Object availability
+- Object durability
+- Frequency of access
+
+The default storage class is **standard**, but this can be changed at any time.
+
+The available classes are:
+
+- **Standard**
+  - Designed for general, all-purpose storage
+  - Default storage option;
+  - Most expensive class;
+- **Intelligent-Tiering**:
+  - Designed for objects with changing or uknown access patterns;
+  - Access patterns of the objects are monitored, and those that haven't been accessed for some time, are moved to the infrequent access tier;
+  - Less expensive than the standard storage class;
+- **Standard-Infrequent Access**
+  - Designed for objects that are not accessed frequently but must be immediately available when accessed;
+  - S3 standard Infrequen Access;
+  - Less expensive than the standard storage class;
+- **One Zone-Infrequent Access**
+  - Designed for non-critical, reproducible objects;
+- **Glacier**
+  - Designed for long-term archival storage;
+  - May take several hours for objects stored in Glacier to be retrieved;
+  - Low-cost S3 storage class;
+- **Glacier Deep Archive**
+  - Designed for long-term archival storage;
+  - Cheapest S3 storage class;
