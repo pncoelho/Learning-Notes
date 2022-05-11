@@ -215,6 +215,8 @@ Versioning rules:
 - Suspending versioning **only prevents new versions**, while maintaining all previous versions in storage;
 - Versioning can **only be set on the bucket level**, applying to all objects in the bucket;
 
+
+
 ### Databases
 
 Two main categories of databases:
@@ -260,3 +262,79 @@ Charging varies a bit between RDS and DynamoDB:
   - **DynamoDB Streams**;
   - **Reserved Capacity**;
   - **Data Transfer** in/out of DynamoDB;
+
+
+
+### Simple Notification Service (SNS)
+
+An AWS service that allows you to **automate the sending of email or text message notifications**, **based on events** that happen in your AWS account.
+
+In SNS there are two types of clients:
+
+- **Publishers** (producers) - They **produce** and send **messages** to a **topic**, which is a communication channel;
+- **Subscribers** (consumers) - Consume or receive the messages or notifications when they are subscribed to the topic;
+
+The supported protocols for subscribers are:
+
+- Amazon SQS;
+- HTTP/S;
+- Email;
+- SMS;
+- Lambda;
+
+The SNS basic components are:
+
+- **Topics**
+  - How you label and group different **endpoints** that you send messages to;
+- **Subscriptions**
+  - The **endpoints** that a topic sends messages to;
+    - I.E. email address, or a phone number;
+- **Publishers**
+  - The human/alarm/event that gives SNS the message that needs to be sent;
+
+#### Pricing:
+
+- **Publishes**
+  - Number of SNS requests;
+- **Notification deliveries**
+  - Number of subscribers the message is sent to;
+- **Data transfer in/out of SNS**
+
+#### Limits:
+
+- Topics - 100,000 per account
+- Subscriptions - 12,500,000 per topic
+
+
+
+### CloudWatch
+
+A service that allows you to **monitor** various elements of your AWS account.
+
+#### Pricing
+
+- Per dashboard;
+- Detailed monitoring for EC2 instances;
+- Custom metrics;
+- API Requests;
+- Logs;
+- Events/custom events;
+
+
+
+### CloudTrail
+
+A service that allows you to track various actions taken while using your AWS account.
+
+Actions taken by a user, role, or an AWS Service are recorded as events in CloudTrail.
+
+Events include actions taken in the AWS Management console, CLI, SDKs and APIs.
+
+#### Pricing
+
+- Management events;
+  - Launching an EC2 instance or creating an S3 Bucket;
+- Data events;
+  - Adding or removing objects from an S3 bucket;
+- Usage Charges;
+  - S3, SNS or encryption;
