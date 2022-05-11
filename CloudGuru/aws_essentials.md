@@ -320,6 +320,37 @@ A service that allows you to **monitor** various elements of your AWS account.
 - Logs;
 - Events/custom events;
 
+#### Lab
+
+```
+Create an SNS Topic and Subscribe an Email Address
+In the AWS Management Console, navigate to Simple Notification Service (SNS).
+In the Create topic box, enter a Topic name of "EC2statechange".
+Click Next step.
+On the Create topic page, leave everything as default, and click Create topic.
+In the Subscriptions section, click Create subscription.
+On the Create subscription page, change the Protocol to Email.
+For Endpoint, type your email address.
+Click Create subscription.
+In a new browser tab, navigate to your email inbox.
+Open the AWS Notification - Subscription Confirmation email, and click the Confirm subscription link.
+Go back to your AWS Management Console browser tab, and refresh the page. The subscription should now be confirmed.
+Create an Amazon EventBridge Rule to Trigger the SNS Topic When There Is a State Change to an EC2 Instance
+Go to Amazon EventBridge.
+Click Create Rule.
+Name the rule "EC2instancestatechange".
+Choose Even Pattern.
+Under Event matching pattern, choose Pre-defined pattern by service.
+Choose the Service Provider AWS.
+Choose the service name EC2.
+For Even Type, choose EC2 Instance State-change Notification.
+Leave the Any state and Any instance options selected.
+Click into the field at the top of the Targets menu, and select SNS topic from the dropdown.
+For Topic, select EC2statechange from the dropdown.
+Click Create.
+
+```
+
 
 
 ### CloudTrail
@@ -338,3 +369,47 @@ Events include actions taken in the AWS Management console, CLI, SDKs and APIs.
   - Adding or removing objects from an S3 bucket;
 - Usage Charges;
   - S3, SNS or encryption;
+
+
+
+### Elastic Load Balancer (ELB)
+
+Evenly distributes traffic between EC2 instances that are associated with it.
+
+There are two LB types:
+
+- **Application LB**
+  - HTTP and HTTPS traffic only
+  - L7
+- **Network LB**
+  - Any traffic
+  - L4
+
+#### Pricing
+
+- No Free Tier
+- For each hour or partial hour the LB is running;
+- For each GB of data transfered through the load balancer;
+
+
+
+### Autoscaling
+
+Automates the process of adding (**scaling in**) or removing (**scaling out**) EC2 instances based on traffic demand for your application.
+
+*Note: scaling up or scaling down is adding or removing resources from an EC2 instance*
+
+There are two main components part of Auto Scaling:
+
+- **Launch Configuration**
+  - The EC2 template used when Auto Scaling needs to add an additional server to the group;
+- **Auto Scaling Group**
+  - All the rules and settings that govern:
+    - When an EC2 instance is added or removed;
+    - The minimum and maximum number of EC2 instances;
+
+#### Pricing
+
+- Auto Scaling is free to use;
+- You will be charged for the resources that Auto Scaling provisions;
+
