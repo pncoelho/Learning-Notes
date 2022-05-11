@@ -413,3 +413,62 @@ There are two main components part of Auto Scaling:
 - Auto Scaling is free to use;
 - You will be charged for the resources that Auto Scaling provisions;
 
+
+
+### Route 53
+
+Configure and manage web domains for websites or applications you host on AWS.
+
+It performs:
+
+- **Domain registration**
+- **Domain Name System (DNS) Service**
+- **Health Checking**y
+
+#### Pricing:
+
+- No Free Tier usage
+- Number of hosted zones;
+- Traffic Flow (per policy)
+- Standard queries;
+- Latency based routing;
+- Geo DNS queries;
+- Health checks;
+- Register/transfer a domain;
+
+
+
+### CloudFront
+
+An AWS service that **replicates data, video, and applications** around the world **to reduce latency**, so that access to these resources is fast for the people who will use them.
+
+It speeds up the distribution of **static and dynamic web content**, such as .**html**, .**css**, .**js** and **image files**.
+
+CloudFront delivers your content through a worldwide network of datacenters called **edge locations**.
+
+When a user requests content that is being server with CloudFront, **the user is routed to the edge location that provides the lowest latency**.
+
+If the content is:
+
+- Already in the edge location
+  - It's delivered immediately;
+- Not in the edge location
+  - It's retrieved from the origin and copied to the edge location;
+
+To create a basic CloudFront Distribution for S3 objects the steps are as follows:
+
+- Upload the data for distribution to an S3 bucket;
+  - For CloudFront URLs to work, **Public Read permissions must be explicitly granted to each object**;
+- From the **CloudFront Console**, choose **Distribution**;
+- On the Delivery Method, select the **Get Started** on **Web**;
+- On the **Create Distribution**, under **Origin Settings** choose the Amazon S3 Bucket that was created earlier;
+- Under **Default Cache Behavior Settings** accept the default values, and CloudFront will:
+  - Forward requests to the S3 bucket;
+  - Allow HTTP(S) access to the objects;
+  - Cache the objects at the Edge locations for 24H;
+- Under **Distribution Settings**, set the desired options including the following key configurations:
+  - **Price Class** - also sets the regions where CloudFront will serve from;
+  - **Alternate Domain Names**
+  - **Distribution State**
+- Choose **Create Distribution**;
+- Ensure that the alternate domain name(s) are configured in **Route 53** if they are set in CloudFront;
