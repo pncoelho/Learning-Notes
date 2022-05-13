@@ -151,3 +151,51 @@ kubectl get nodes
 # NOTE: The nodes are expected to have a STATUS of NotReady at this point.
 ```
 
+
+
+#### Configure Cluster Networking
+
+When running Kubernetes, there is also a system configuration that needs to be performed, in order for the containers to be able to communicate correctly between Kubernetes Nodes.
+
+This configuration is activating the `net.bridge.bridge-nf-call-iptables`. This family of three flags "*control whether or not packets traversing the...* " (Linux Host)  "*...bridge are sent to iptables for processing*".
+
+More information, like the quote presented bellow, can be found in this document from **libvirt**:
+
+> These control **whether or not packets traversing the bridge are sent to iptables for processing**. In the case of using bridges to connect virtual machines to the network, generally such processing is *not* desired, as it results in guest traffic being blocked due to host iptables rules that only account for the host itself, and not for the guests.
+> *From:* https://wiki.libvirt.org/page/Net.bridge.bridge-nf-call_and_sysctl.conf
+
+*A more detailed explanation on how this works and why it's needed can be found in the following article: https://programmer.ink/think/61b20fd736d13.html*.
+
+So to configure this, just perform the following command in all Kubernetes Nodes:
+
+```bash
+# Set the flag to be active on next startup
+echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
+# Activate the flag before next startup
+sudo sysctl -p
+```
+
+
+
+After dealing with the iptables issue, we can focus on Kubernetes, which has 4 distinct networking problems to address:
+
+1. Highly-coupled **container-to-container** communications: this is solved by [Pods](https://kubernetes.io/docs/concepts/workloads/pods/) and `localhost` communications.
+2. **Pod-to-Pod** communications;
+3. **Pod-to-Service** communications;
+4. **External-to-Service** communications;
+
+With this said, one aspect of Kubernetes networking, which is the **Pod-to-Pod** one, needs to be defined in the creation of the cluster.
+
+In this Playground example, the [Flannel project](https://github.com/flannel-io/flannel#flannel) was used, but a [bunch more are available to be used](https://kubernetes.io/docs/concepts/cluster-administration/networking/).
+
+To configure Flannel, we just add to apply the [Flannel YAML configuration](https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml) file, that the maintainers of Flannel have created.
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+```
+
+
+
+### Random Notes
+
+In case a Kubernetes cluster node needs to be reverted, just perform the `sudo kubeadm reset` command.
