@@ -2,6 +2,10 @@
 
 https://interactive.linuxacademy.com/diagrams/ProjectOmega2.html
 
+OR
+
+https://lucid.app/lucidchart/4a14d834-acd0-4b9f-8f0b-85b69d01b6ab
+
 ![Project Omega 2.0 Diagram](./media/aws_essentials_project_omega_diagram.png)
 
 
@@ -423,7 +427,23 @@ It performs:
 
 - **Domain registration**
 - **Domain Name System (DNS) Service**
-- **Health Checking**y
+- **Health Checking**
+
+#### Supported Record Types
+
+- [A record type](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#AFormat)
+- [AAAA record type](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#AAAAFormat)
+- [CAA record type](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#CAAFormat)
+- [CNAME record type](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#CNAMEFormat)
+- [DS record type](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#DSFormat)
+- [MX record type](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#MXFormat)
+- [NAPTR record type](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#NAPTRFormat)
+- [NS record type](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#NSFormat)
+- [PTR record type](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#PTRFormat)
+- [SOA record type](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#SOAFormat)
+- [SPF record type](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#SPFFormat)
+- [SRV record type](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#SRVFormat)
+- [TXT record type](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#TXTFormat)
 
 #### Pricing:
 
@@ -472,3 +492,29 @@ To create a basic CloudFront Distribution for S3 objects the steps are as follow
   - **Distribution State**
 - Choose **Create Distribution**;
 - Ensure that the alternate domain name(s) are configured in **Route 53** if they are set in CloudFront;
+
+
+
+### Lambda
+
+It's **serverless** computing, allowing for **code execution without provisioning or managing a server**.
+
+Code is **only run when needed and scales automatically**.
+
+You **only pay for the compute time you consume**, so there is no charge when the code is not running.
+
+When creating a function, it can be one of the following:
+
+- **Author from scratch**
+  - Start with a simple Hello World example;
+- **Use a blueprint**
+  - Use sample code and configuration presets for common use cases;
+- **Container image**
+- **Browse serverless app repository**
+
+#### Pricing
+
+- **Requests** (to execude code);
+- **Duration** (the lenght of time it takes the code to execute);
+- **Accessing data from other AWS services/resources**;
+
