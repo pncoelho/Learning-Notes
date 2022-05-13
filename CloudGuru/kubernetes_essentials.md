@@ -4,16 +4,53 @@ https://interactive.linuxacademy.com/diagrams/KubernetesEssentialsInteractiveDia
 
 ### Kubernetes Management Components
 
-Kubernetes has the following 3 components that are either required, or assist in setting up and managing the cluster:
+Kubernetes has multiple components that are either required, or assist in setting up, managing and running the cluster:
 
-- **Kubeadm**
-  - Tool that automates a large portion of the process of setting up a cluster;
-- **Kubelet**
-  - Handles running containers on a node;
-  - Agent that servers as a middleman between Kubernetes and the Container Runtime;
-  - Every node needs kubelet;
-- **Kubectl**
-  - Command-line tool for interacting with the cluster;
+- **Control plane Components**
+  - Components that are responsible for managing and controlling the cluster;
+  - **etcd** - Provides distributed, synchronized data storage for the cluster state;
+  - **kube-apiserver** - This API is the primary interface for the cluster;
+    - Client facing interface;
+  - **kube-controller-manager** - Bundles several components into one package for handling the backend administration of the cluster;
+  - **kube-scheduler** - Schedules pods to run on individual nodes;
+- **Components that all nodes have**
+  - **kubelet** - Agent that servers as a middleman between Kubernetes and the Container Runtime;
+    - Handles running containers on a node;
+    - This one is a service and not a pod, like the previous ones;
+  - **kube-proxy** - Handles network communication between nodes by adding firewall routing rules;
+- Components that assist in managing the cluster
+  - **kubeadm**
+    - Tool that automates a large portion of the process of setting up a cluster;
+    - Allows for many of these components to run as pods within the cluster itself;
+  - **kubectl**
+    - Command-line tool for interacting with the cluster;
+
+More components or a detailed view of the ones presented here, can be found in [Kubernetes Components](https://kubernetes.io/docs/concepts/overview/components/).
+
+
+
+### Containers and Pods
+
+**Pods** are the smallest and most basic building block of the Kubernetes model.
+
+A **Pod** consists of one or more containers (usually only one, but if there are more, they are tightly coupled containers/applications), storage resources, and a unique IP address in the Kubernetes cluster network.
+
+In order to run containers, Kubernetes **schedules** pods to run on servers in the cluster. When a pod is scheduled, the server will run the containers that are part of that pod.
+
+
+
+### Clustering and Nodes
+
+Kubernetes implements a **clustered** architecture, where multiple **nodes** compose the cluster.
+
+These nodes in the cluster are either
+
+- **control nodes**
+  - Manage and control the cluster and host the **Kubernetes API**;
+- **data nodes**
+  - Nodes where the pods run;
+
+
 
 ### Lab Environment
 
@@ -184,7 +221,7 @@ After dealing with the iptables issue, we can focus on Kubernetes, which has 4 d
 3. **Pod-to-Service** communications;
 4. **External-to-Service** communications;
 
-With this said, one aspect of Kubernetes networking, which is the **Pod-to-Pod** one, needs to be defined in the creation of the cluster.
+With this said, one aspect of Kubernetes networking, which is the **Pod-to-Pod** one, needs to be defined in the creation of the cluster. This communication requires the creation of a **virtual cluster network**, that spans all nodes and where every pod has an unique IP address
 
 In this Playground example, the [Flannel project](https://github.com/flannel-io/flannel#flannel) was used, but a [bunch more are available to be used](https://kubernetes.io/docs/concepts/cluster-administration/networking/).
 
@@ -208,9 +245,60 @@ kubectl get pods -n kube-system
 
 
 
+#### Containers and Pods
+
+Create and schedule a simple pod running a nginx container:
+
+```bash
+# Create the nginx pod
+cat << EOF | sudo tee ~/kubernetes/example_pod.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+EOF
+
+# Schedule the pod
+kubectl create -f ~/kubernetes/example_pod.yml
+
+# Get list of pods that are running
+kubectl get pods
+
+# Get list of system pods, by specifing the kube-system namespace
+kubectl get pods -n kube-system
+
+# Get more information on the pod
+kubectl describe pod nginx
+
+# Delete the pod
+kubectl delete pod nginx
+```
+
+
+
+#### Clustering and Nodes
+
+To get more information on the cluster or a specific node you can use the following command:
+
+```bash
+# Get list of cluster nodes
+kubectl get nodes
+
+# Get more detailed information on a specific node
+kubectl describe node kube-data01
+```
+
+
+
 ### Random Notes
 
 In case a Kubernetes cluster node needs to be reverted, just perform the `sudo kubeadm reset` command.
+
+Kubernetes objects have all an associated **namespace**.
 
 
 
