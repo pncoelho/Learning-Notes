@@ -52,6 +52,30 @@ These nodes in the cluster are either
 
 
 
+### Deployments
+
+**Deployments** are a great way to automate the management of pods, by defining a **desired state** for a set of pods. The Cluster will then constantly work to maintain that desired state.
+
+Advantages of **deployments**:
+
+- **Scaling** - The deployment will create or remove pods to meet the specified number of replicas;
+- **Rolling Updates** - By changing the deployment container image to a new version, the deployment will gradually replace existing containers;
+- **Self-Healing** - If one of the pods is destroyed while deploying, the deployment will spin up a new one;
+
+
+
+### Services
+
+Replica pods are often created and destroyed, which makes accessing the directly a non viable solution.
+
+In order for other pods and external entities to access these pods a **service** is created.
+
+A **service** is an abstraction layer on top of a set of replica pods. This gives uninterrupted, dynamic access to the "*service*" the replicas that are running at the time.
+
+![k8_es_services](./media/k8_es_services.png)
+
+
+
 ### Lab Environment
 
 Composed of three servers with the following software:
@@ -294,6 +318,87 @@ kubectl describe node kube-data01
 
 
 
+#### Deployments
+
+Create a sample deployment and test it:
+
+```bash
+# Create sample deployment file
+cat << EOF | sudo tee ~/kubernetes/example_deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: nginx-deployment  
+  labels: 
+    app: nginx 
+spec: 
+  replicas: 2  
+  selector: 
+    matchLabels: 
+      app: nginx  
+  template: 
+    metadata: 
+      labels: 
+        app: nginx  
+    spec:
+      containers: 
+      - name: nginx
+        image: nginx:1.15.4 
+        ports:
+        - containerPort: 80
+EOF
+
+# Deploy
+kubectl create -f ~/kubernetes/example_deployment.yml
+
+# Get a list of deployments:
+kubectl get deployments
+
+# Get more information about a deployment:
+kubectl describe deployment nginx-deployment
+
+#Get a list of pods:
+kubectl get pods
+```
+
+
+
+#### Services
+
+```bash
+# Create a NodePort service on top of your nginx pods.
+# The selector attribute with the "app: nginx" is what selects
+#   what pods will be a part of this service.
+cat << EOF | sudo tee ~/kubernetes/example_service.yml
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30080
+  type: NodePort
+EOF
+
+kubectl create -f ~/kubernetes/example_service.yml
+
+# Get a list of services in the cluster.
+kubectl get svc
+
+# You should see your service called nginx-service .
+# Since this is a NodePort service, you should be able to access it using port 30080 on any of your cluster's servers.
+# You can test this with the command:
+curl localhost:30080
+
+```
+
+
+
 ### Random Notes
 
 In case a Kubernetes cluster node needs to be reverted, just perform the `sudo kubeadm reset` command.
@@ -338,7 +443,8 @@ EOF
 sudo sysctl --system
 
 # 6. Install containerd:
-sudo apt-get update && sudo apt-get install -y containerd
+sudo apt-get update && sudo apt-get install -y containerd=1.5.5-0ubuntu3~20.04.2
+sudo apt-mark hold containerd
 
 # 7. Create default configuration file for containerd:
 sudo mkdir -p /etc/containerd
