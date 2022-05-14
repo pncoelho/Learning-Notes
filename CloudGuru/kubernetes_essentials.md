@@ -405,6 +405,8 @@ In case a Kubernetes cluster node needs to be reverted, just perform the `sudo k
 
 Kubernetes objects have all an associated **namespace**.
 
+To edit a deployment or a service that is currently running, use the `kubectl edit` command. Ex: `kubectl edit deployment mongodb -n robot-shop`.
+
 
 
 ### CloudGuru Labs
