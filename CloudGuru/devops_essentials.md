@@ -72,15 +72,15 @@ Continuous Integration is the practice of frequently merging code changes done b
 
 Traditionally, developers would work separately, perhaps for weeks at a time, and then merge all of their work together at the end in one large effort.
 
-Continous integration means merging constantly throughout the day, usually with the execution of automated tests to detect any problems caused by the merge.
+Continuous integration means merging constantly throughout the day, usually with the execution of automated tests to detect any problems caused by the merge.
 
 Merging all the time could be a lot of work, so the process should be automated.
 
-Continous Integration is usually done with the help of a CI Server.
+Continuous Integration is usually done with the help of a CI Server.
 
 When a developer commits a code change, the CI server sees the change and automatically performs a build, also executing automated tests.
 
-If there is any problem with the build, the CI server imediatelly and automatically notifies the developer.
+If there is any problem with the build, the CI server immediately and automatically notifies the developer.
 
 If anyone commits code that "breaks the build", they are responsible for fixing the problem or rolling back their changes immediately so that other developers can continue working.
 
@@ -88,29 +88,29 @@ If anyone commits code that "breaks the build", they are responsible for fixing 
 
  - Early detection of certain types of bugs - If code doesn't compile or an automated test fails, the developers are notified and can fix it immediately. The sooner these bugs are detected, the easier they are to fix;
 
- - Eliminate the scramble to integrate just before a big release - The code is constatly merged, so there is no need to do a big merge at the end;
+ - Eliminate the scramble to integrate just before a big release - The code is constantly merged, so there is no need to do a big merge at the end;
 
  - Makes frequent releases possible - Code is always in a state that can be deployed to production;
 
- - Makes continous testing possible - Since the code can always be run, QA testers can get their hands on it all throughout the development proccess, not just at the end;
+ - Makes continuous testing possible - Since the code can always be run, QA testers can get their hands on it all throughout the development process, not just at the end;
 
  - Encourages good coding practices - Frequent commits encourages simple, modular code;
 
 ## Continuous Delivery and Continuous Deployment
 
-Continous Delivery is the practice of continously maintaining code in a deployable state.
+Continuous Delivery is the practice of continuously maintaining code in a deployable state.
 
 This is regardless of whether or not the decision is made to deploy. The code is always in a deployable state, meaning the decision to deploy is a business one.
 
-Continous Deployment is the practice of frequently deploying small code changes to production.
+Continuous Deployment is the practice of frequently deploying small code changes to production.
 
-While continous elivery  is keeping the code in a deployable state, continuous deployment is actually doing the deployment frequently.
+While continuous delivery  is keeping the code in a deployable state, continuous deployment is actually doing the deployment frequently.
 
 Some companies that use continuous deployment deploy to production multiple times a day.
 
 There is no standard for how often you should deploy, but the more often the better.
 
-With continous deployment, deployments to production are routine and commonplace. They are not a big, scary event.
+With continuous deployment, deployments to production are routine and commonplace. They are not a big, scary event.
 
 What does continuous delivery and deployment look like?
 
@@ -126,7 +126,7 @@ What does continuous delivery and deployment look like?
 
  - This makes pushing to production and rollbacks less of an obstacle, because code can be rolled back and rolled forward automatically;
 
-Why should continous delivery and deployment should be done:
+Why should continuous delivery and deployment should be done:
 
  - Faster time-to-market;
 
@@ -134,7 +134,7 @@ Why should continous delivery and deployment should be done:
 
  - Lower risk - The more changes that are deployed at once, the higher the risk. Frequent deployments of less changes are less risky;
 
- - Reliable rollbacks - Robus automation means rollbacks are a reliable way to ensure stability for customers, and they don't hurt developers because they can roll forward with a fix, as soon as they have one;
+ - Reliable rollbacks - Robust automation means rollbacks are a reliable way to ensure stability for customers, and they don't hurt developers because they can roll forward with a fix, as soon as they have one;
 
  - Fearless deployments - Robust automation plus the ability to rollback quickly means deployments are commonplace, everyday events rather than big, scary events;
 
@@ -150,7 +150,7 @@ Automation and code is used to create and change infrastructure.
 
  - Reusability - Code can be used to make the same change consistently across multiple hosts and can be used again in the future;
 
- - Scalability - A new instance can be configured exacltly the same way as the existing one in minuter;
+ - Scalability - A new instance can be configured exactly the same way as the existing one in minutes;
 
  - Self-documenting - Changes to infrastructure document themselves to a degree;
 
@@ -160,7 +160,7 @@ Automation and code is used to create and change infrastructure.
 
 Configuration Management: maintaining and changing the state of pieces of infrastructure in a consistent, maintainable, and stable way.
 
-Configuration management is about doing them in a maintanable way.
+Configuration management is about doing them in a maintainable way.
 
 Configuration management allows you to minimize configuration drift - the small changes that accumulate over time and make systems different from one another and harder to manage.
 
@@ -178,7 +178,7 @@ Benefits of configuration management:
 
 ## Orchestration
 
-Ocherstration: automation that supports processes and workflows, such as provisioning resources.
+Orchestration: automation that supports processes and workflows, such as provisioning resources.
 
 With orchestration, managing a complex infrastructure is less like being a builder and more like conducting an orchestra.
 
@@ -190,9 +190,9 @@ Instead of going out and creating a piece of infrastructure, the conductor simpl
 
 Benefits of orchestration:
 
- - Scalability - Resources can be quicky increased or decreased to meet changing needs;
+ - Scalability - Resources can be quickly increased or decreased to meet changing needs;
 
- - Stability - Automation tools can automatically responde to fix problems before users see them;
+ - Stability - Automation tools can automatically respond to fix problems before users see them;
 
  - Save time - Certain tasks and workflows can be automated, freeing up engineer's time;
 
@@ -301,7 +301,7 @@ Google Kubernetes Engine:
 
 ### Microsoft Azure DevOps
 
-Continous Integration, Delivery and Deployment:
+Continuous Integration, Delivery and Deployment:
 
  - Visual Studio Team Services - source control and CI;
 
