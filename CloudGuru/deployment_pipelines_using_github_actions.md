@@ -330,16 +330,104 @@ Uses a **container** to run the action, instead of the *Runner* server.
 Particularities of using container actions:
 
 - **Advantages**
+
   - They allow you to **package the environment** to make running the action easier and consistent;
 
   - They **allow for specifying a Linux distro** and including dependencies;
+
     - Git hub does specify that the **prefered Linux distro is Debian**
 
   - Good for **custom environment configurations**;
+
     - Since everything is specified inside the *Dockerfile*;
+
 - **Constraints**
+
   - They must be run by the **root container user**;
+
   - GitHub recommends **not using the** `WORKDIR` **in the *Dockerfile***;
+
   - If an entrypoint is specified in the `action.yml` file, **it will override the** `ENTRYPOINT` **in the Dockerfile**;
+
   - The args in `action.yml` file, **will override** `CMD` **in the Dockerfile**;
 
+### Lab
+
+#### Create the Action and the Container
+
+Start by forking a [template container action repo](https://github.com/linuxacademy/content-container-actions-app).
+
+Once the repo has been cloned to the server, start by creating the *Dockerfile*:
+
+```bash
+# ~/content-container-actions-app/Dockerfile
+# Container image that runs your code
+FROM alpine:3.10
+
+# Copies your code file from your action repository to the filesystem path `/` of the container
+COPY entrypoint.sh /entrypoint.sh
+
+# Code file to execute when the docker container starts up (`entrypoint.sh`)
+ENTRYPOINT ["/entrypoint.sh"]
+```
+
+Create the action file to run the Docker image:
+
+```yaml
+# ~/content-container-actions-app/action.yaml
+name: 'Hello World'
+description: 'Greet someone and record the time'
+inputs:
+  who-to-greet:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
+outputs:
+  time: # id of output
+    description: 'The time we greeted you'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.who-to-greet }}
+```
+
+Now create the entrypoint shell file to run inside the container:
+
+```bash
+#!/bin/sh -l
+# ~/content-container-actions-app/entrypoint.sh
+
+echo "Hello $1"   # uses the who-to-greet input variable to print "Hello [who-to-greet]" in the log file
+time=$(date)      # gets the current time and sets it as an output variable that actions running later in a job can use.
+echo "::set-output name=time::$time" # sets the action's output parameter using the workflow syntax
+```
+
+Don't forget to make the entrypoint file executable with `chmod +x ~/content-container-actions-app/entrypoint.sh`.
+
+#### Create the Workflow
+
+Now we just need to create the workflow folder (`mkdir -p ~/content-container-actions-app/.github/workflows/`) and the workflow itself:
+
+```yaml
+# ~/content-container-actions-app/.github/workflows/main.yaml
+on: [push]
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: A job to say hello
+    steps:
+      # To use this repository's private action,
+      # you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Hello world action step
+        uses: ./ # Uses an action in the root directory
+        id: hello
+        with:
+          who-to-greet: 'Coelho, Pedro'
+      # Use the output from the `hello` step
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
+```
