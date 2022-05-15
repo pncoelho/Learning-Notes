@@ -306,3 +306,36 @@ git add .github/*
 git commit -m "Added private workflow"
 git push
 ```
+
+
+
+## Creating Container GitHub Actions
+
+### Lesson Overview
+
+1. **Container Actions Overview**
+
+  - What they are;
+
+  - How are they used;
+
+  - When to use them over JS actions;
+
+2. **Build a Container Action**
+
+### Container Actions
+
+Uses a **container** to run the action, instead of the *Runner* server.
+
+Particularities of using container actions:
+
+- They allow you to **package the environment** to make running the action easier and consistent;
+
+- They **allow for specifying a Linux distro** and including dependencies;
+
+  - Git hub does specify that the **prefered Linux distro is Debian**
+
+- Good for **custom environment configurations**;
+
+  - Since everything is specified inside the container's file;
+
