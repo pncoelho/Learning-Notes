@@ -146,3 +146,163 @@ With the code now in GitHub we can start creating the Actions:
 - Leave everything as default and commit the new file;
 
 - At this point, a new *Workflow* just started executing to build the Node code;
+
+
+
+## Creating JavaScript GitHub Actions
+
+### Lab Overview
+
+1. **Two Types of Actions**:
+
+  - JavaScript actions;
+
+  - Container actions;
+
+2. **Learn about Creating Action YAML files**;
+
+3. **Create a Custom JS Action YAML**;
+
+
+
+#### JavaScript vs. Container Actions
+
+The main differences between there are:
+
+- **JavaScript**:
+
+  - **Run directly** on the CI server/build agent/runner;
+
+  - **External dependencies must be pre-installed**;
+
+  - Support for TypeScript;
+
+  - **All OS supported**;
+
+- **Container**:
+
+  - **Portable** and **flexible**;
+
+  - **Consistent** and **reliable**;
+
+  - **Customize Os and tools**;
+
+  - **Slower** that JS actions;
+
+  - **Linux only**;
+
+### Lab Steps
+
+#### Create the GitHub Action
+
+First, fork the [JavaScript action template repo](https://github.com/linuxacademy/content-javascript-actions-app.git) to your own repository.
+
+Afterwards, clone the repo and initialize the project using the package.json file:
+
+```bash
+# clone the repo
+git clone https://github.com/$YOUR_GITHUB_ACCOUNT/content-javascript-actions-app.git ~/content-javascript-actions-app
+
+# initialize the project
+cd ~/content-javascript-actions-app
+npm init -y
+```
+
+Then create the GitHub action file:
+
+```yaml
+# ~/content-javascript-actions-app/action.yaml
+name: 'Hello World'
+description: 'Greet someone and record the time'
+inputs: # input parameters are stored as environment variables
+  who-to-greet:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'World'
+outputs:
+  time: # id of output
+    description: 'The time we greeted you'
+runs:
+  using: 'node12'
+  main: 'index.js'
+```
+
+With action created, let's install the actions toolkit:
+
+```bash
+# the @actions/core package provides an interface to the commands in the workflow and helps with input and output variables
+npm install @actions/core
+
+# the @actions/github package returns the Octokit REST client and GitHub actions contexts
+npm install @actions/github
+```
+
+Now that that is done, let's create the main JS file:
+
+```javascript
+/* 
+ ~/content-javascript-actions-app/index.js
+
+ prints hello $person in a debug message in the log
+ the script gets the current time and sets it as an output variable for our action to use
+ GitHub Actions provide context information about the webhook event, Git refs, workflow, action, and the person who triggered the workflow
+*/
+const core = require('@actions/core');
+const github = require('@actions/github');
+
+try {
+  // `who-to-greet` input defined in action metadata file
+  const nameToGreet = core.getInput('who-to-greet');
+  console.log(`Hello ${nameToGreet}!`);
+  const time = (new Date()).toTimeString();
+  core.setOutput("time", time);
+  // Get the JSON webhook payload for the event that triggered the workflow
+  const payload = JSON.stringify(github.context.payload, undefined, 2)
+  console.log(`The event payload: ${payload}`);
+} catch (error) {
+  core.setFailed(error.message);
+}
+```
+
+With the code finished, let's send it to the repo and **create a tag** to mark the version of the action:
+
+```bash
+git add .
+git commit -m "My first action"
+git tag -a -m "My first action release" v1
+git push --follow-tags
+```
+#### Create a Private Workflow
+
+Inside the same repo, create a new workflow file and paste the following content:
+
+```yaml
+# ~/content-javascript-actions-app/.github/workflows/main.yaml
+on: [push]
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: A job to say hello
+    steps:
+      # To use this repository's private action,
+      # you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v3 # This action checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it.
+      - name: Hello world action step
+        uses: ./ # Uses an action in the root directory
+        id: hello
+        with:
+          who-to-greet: 'Pedro Coelho'
+      # Use the output from the `hello` step
+      - name: Get the output time
+        run: echo "The time was ${{ steps.hello.outputs.time }}"
+```
+
+Send this workflow to the repo and watch the action run.
+
+```bash
+git add .github/*
+git commit -m "Added private workflow"
+git push
+```
