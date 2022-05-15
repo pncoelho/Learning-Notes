@@ -342,14 +342,13 @@ Particularities of using container actions:
     - Since everything is specified inside the *Dockerfile*;
 
 - **Constraints**
-
-  - They must be run by the **root container user**;
-
-  - GitHub recommends **not using the** `WORKDIR` **in the *Dockerfile***;
-
-  - If an entrypoint is specified in the `action.yml` file, **it will override the** `ENTRYPOINT` **in the Dockerfile**;
-
-  - The args in `action.yml` file, **will override** `CMD` **in the Dockerfile**;
+- They must be run by the **root container user**;
+  
+- GitHub recommends **not using the** `WORKDIR` **in the *Dockerfile***;
+  
+- If an entrypoint is specified in the `action.yml` file, **it will override the** `ENTRYPOINT` **in the Dockerfile**;
+  
+- The args in `action.yml` file, **will override** `CMD` **in the Dockerfile**;
 
 ### Lab
 
@@ -432,6 +431,8 @@ jobs:
         run: echo "The time was ${{ steps.hello.outputs.time }}"
 ```
 
+
+
 ## Building an Actions Workflow
 
 ### Lesson Overview
@@ -446,4 +447,13 @@ All GitHub workflows should be in the `.github/workflows/` folder and be in YAML
 
 Components of a workflow:
 
-- Name
+- **Name**;
+- **On** - The **event that triggers** the workflow;
+  - There can be **one trigger** or **multiple**;
+  - **Any event in GitHub** can be used;
+  - This can also be **filtered by branches**, **paths** and other filters;
+- **Jobs** - list of jobs to execute;
+  - **Jobs run in parallel** by default;
+  - A **job contains** a sequence of tasks called **steps**;
+    - **Steps can run commands**, run **actions**, or run a **setup**;
+  - A job also **specifies the operating systems** used for the build, and **application version**;
