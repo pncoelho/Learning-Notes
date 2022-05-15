@@ -431,3 +431,19 @@ jobs:
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
 ```
+
+## Building an Actions Workflow
+
+### Lesson Overview
+
+1. Workflow Parts;
+
+2. Multiple Types of Workflows;
+
+### Workflow Overview
+
+All GitHub workflows should be in the `.github/workflows/` folder and be in YAML.
+
+Components of a workflow:
+
+- Name
