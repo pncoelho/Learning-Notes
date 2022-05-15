@@ -28,3 +28,6 @@ The `.github/workflows/` path is the **default location** to place the **GitHub 
 ## Creating Your First GitHub Action
 
 First thing to do was to spin up a **large** `CentOS w/ code-server` on the *ACG Cloud Servers* from the *Cloud Playground*. This server will be used as the **development server**.
+
+The **VS Code Server** can be accessed by opening the url `https://$server_public_ip:8080`. The default password is: `CHANGE_THIS_PASSWORD`.
+
