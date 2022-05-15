@@ -448,12 +448,129 @@ All GitHub workflows should be in the `.github/workflows/` folder and be in YAML
 Components of a workflow:
 
 - **Name**;
+
 - **On** - The **event that triggers** the workflow;
+
   - There can be **one trigger** or **multiple**;
+
   - **Any event in GitHub** can be used;
+
   - This can also be **filtered by branches**, **paths** and other filters;
+
 - **Jobs** - list of jobs to execute;
+
   - **Jobs run in parallel** by default;
+
   - A **job contains** a sequence of tasks called **steps**;
+
     - **Steps can run commands**, run **actions**, or run a **setup**;
+
   - A job also **specifies the operating systems** used for the build, and **application version**;
+
+### Lab
+
+Update the `node.js.yml` workflow with new content:
+
+```yaml
+# ~/dpuga-simplenodeapp/.github/workflows/node.js.yml
+
+# Name of the workflow
+name: build
+# When to run the workflow
+# In this case, run on any push that contains modified JS files
+on:
+  push:
+    paths: 
+      - '**.js'
+# The list of tasks to run
+jobs:
+  # The only job we have in this workflow
+  build:
+    # The name of the job
+    name: "Node.js Build Workflow"
+    # The job run 'strategy'
+    # Run on the specified OSs and with the specified Node versions
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+        node-version: [12.x, 14.x, 16.x]
+        # Exclude the latest MacOS with Node 12.X
+        exclude:
+          - os: macos-latest
+            node-version: 12.x
+    # Specify on where/what the job will run
+    # In this case, specify the runner's OS
+    runs-on: ${{ matrix.os }}
+    # The steps/tasks performed in this job
+    steps:
+      # Checkout the code to the runner
+      - name: "Checkout code"
+        uses: actions/checkout@v3
+      # Setup the Node.js version on the runner
+      - name: "Setup Node.js ${{ matrix.node-version }}"
+        uses: actions/setup-node@v3
+        with:
+          node-version:  ${{ matrix.node-version }}
+      - name: "Install necessary Node packages"
+        run: npm ci
+      - name: "Build the Node.js code"
+        run: npm run build --if-present
+```
+
+After this is done, perform any change to any .js file (the `index.js` file for example), push it to the repo and the workflow should start running.
+
+There can also be more than one workflow, so create one for code testing:
+
+```yaml
+# ~/dpuga-simplenodeapp/.github/workflows/test.yml
+
+# Name of the workflow
+name: test
+# When to run the workflow
+# In this case, run on any Pull Request that's performed in to 'main'
+on:
+  pull_request:
+    branches:
+      - main
+
+# The list of tasks to run
+jobs:
+  # The only job we have in this workflow
+  build:
+    # The name of the job
+    name: "Node.js Code Testing"
+    # The job run 'strategy'
+    # Run on the specified OSs and with the specified Node versions
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-18.04]
+        node-version: [12.x]
+        include:
+          - os: ubuntu-18.04
+            node-version: 13.x
+            experimental: true
+    # Specify on where/what the job will run
+    # In this case, specify the runner's OS
+    runs-on: ${{ matrix.os }}
+    # The steps/tasks performed in this job
+    steps:
+      # Checkout the code to the runner
+      - name: "Checkout code"
+        uses: actions/checkout@v3
+      # Setup the Node.js version on the runner
+      - name: "Setup Node.js ${{ matrix.node-version }}"
+        uses: actions/setup-node@v3
+        with:
+          node-version:  ${{ matrix.node-version }}
+      - name: "Install the Mocha test package"
+        run: npm install -g mocha
+      - name: "Run the code tests"
+        run: npm test
+```
+
+With the workflow created, create a PR to main and watch it run
+
+
+
+## Inserting Action Workflow Steps
+
