@@ -437,9 +437,9 @@ jobs:
 
 ### Lesson Overview
 
-1. Workflow Parts;
+1. **Workflow Parts**;
 
-2. Multiple Types of Workflows;
+2. **Multiple Types of Workflows**;
 
 ### Workflow Overview
 
@@ -574,3 +574,21 @@ With the workflow created, create a PR to main and watch it run
 
 ## Inserting Action Workflow Steps
 
+### Lesson Overview
+
+1. **Types of Steps**;
+2. **Build Upon Steps**;
+
+### Steps
+
+Steps can use multiple different keywords:
+
+- **if**;
+  - Steps can have **if** statements to prevent them from running;
+- **uses**;
+  - Selects the **action to run** as part of the step;
+  - Can be an action **inside the same repo**, on a **public repo** or a **Docker image**;
+  - **Recommended to specify the version**;
+- **run**;
+  - Run a **command-line program**;
+  - Can **specify the shell to use**;
