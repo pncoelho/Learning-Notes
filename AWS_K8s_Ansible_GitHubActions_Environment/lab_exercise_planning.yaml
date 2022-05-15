@@ -1,0 +1,21 @@
+Create a project in GitHub
+  Fork the linuxacademy/robot-shop project
+Create an AWS lab
+  Use the ACG CloudPlaygroung
+Create an account for Terraform in AWS IAM
+Create GitHub actions for Continuous Deployment
+  Whenever a PR is done to master:
+    Monitor the K8s and Ansible folder for infrastructure changes
+    Monitor the source code folders for changes on code
+Criar componentes de AWS com Terraform
+  Criar VPC
+  Criar Subnets 
+  Criar Internet Gateway
+  Criar Route Table
+  Criar NACLs
+  Criar EC2s para cluster de Kubernetes
+  Criar Security Groups
+  Ir juntando as peças todas
+Instalar Kubernetes com Ansible
+  Instalar cluster de Kubernetes com 1 master e dois workers
+Usar applicação "robot-shop" para deploy no K8s
