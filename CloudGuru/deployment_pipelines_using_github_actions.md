@@ -329,13 +329,17 @@ Uses a **container** to run the action, instead of the *Runner* server.
 
 Particularities of using container actions:
 
-- They allow you to **package the environment** to make running the action easier and consistent;
+- **Advantages**
+  - They allow you to **package the environment** to make running the action easier and consistent;
 
-- They **allow for specifying a Linux distro** and including dependencies;
+  - They **allow for specifying a Linux distro** and including dependencies;
+    - Git hub does specify that the **prefered Linux distro is Debian**
 
-  - Git hub does specify that the **prefered Linux distro is Debian**
-
-- Good for **custom environment configurations**;
-
-  - Since everything is specified inside the container's file;
+  - Good for **custom environment configurations**;
+    - Since everything is specified inside the *Dockerfile*;
+- **Constraints**
+  - They must be run by the **root container user**;
+  - GitHub recommends **not using the** `WORKDIR` **in the *Dockerfile***;
+  - If an entrypoint is specified in the `action.yml` file, **it will override the** `ENTRYPOINT` **in the Dockerfile**;
+  - The args in `action.yml` file, **will override** `CMD` **in the Dockerfile**;
 
