@@ -592,3 +592,321 @@ Steps can use multiple different keywords:
 - **run**;
   - Run a **command-line program**;
   - Can **specify the shell to use**;
+
+
+
+## Lab Create a Container Action Using GitHub Actions
+
+Created a lab repo in GitHub: https://github.com/pncoelho/containeraction
+
+Created the Dockerfile.
+
+```bash
+# ~/containeraction/Dockerfile
+# Container image that runs your code
+FROM debian:9.5-slim
+
+# Copies your code file from your action repository to the filesystem path `/` of the container
+ADD entrypoint.sh /entrypoint.sh
+
+# Makes the entrypoint file an executable
+RUN chmod +x /entrypoint.sh
+
+# Code file to execute when the docker container starts up (`entrypoint.sh`)
+ENTRYPOINT ["/entrypoint.sh"]
+```
+
+Create the action file to run the Docker image:
+
+```yaml
+# ~/containeraction/action.yml
+name: 'Container Memory'
+description: 'Shows the memory status of the container'
+inputs:
+  greeting: # id of input
+    description: 'greeting to use'
+    required: true
+    default: 'Awesome Guru'
+outputs:
+  memory: # id of output
+    description: 'The container's memory
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+```
+
+Now create the entrypoint shell file to run inside the container:
+
+```bash
+#!/bin/sh
+# ~/containeraction/entrypoint.sh
+
+echo "Hello $INPUT_GREETING" # this is a reference to the 'greeting' variable in the action.yml file
+memory=$(cat /proc/meminfo)
+echo "::set-output name=memory::$memory" # sets the action's output parameter using the workflow syntax
+```
+
+#### Create the Workflow
+
+Now we just need to create the workflow folder (`mkdir -p ~/content-container-actions-app/.github/workflows/`) and the workflow itself:
+
+```yaml
+# ~/containeraction/.github/workflows/main.yaml
+on: [push]
+
+jobs:
+  container_memory_job:
+    runs-on: ubuntu-latest
+    name: A job to display container memory
+    steps:
+      # To use this repository's private action,
+      # you must check out the repository
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Get container memory
+        id: conmem
+        uses: ./ # Uses an action in the root directory
+        with:
+          greeting: 'Coelho, Pedro'
+      # Use the output from the `conmem` step
+      - name: Output the container memory
+        run: echo "Total memory is ${{ steps.conmem.outputs.memory }}"
+```
+
+Once the everything is commited to the repo, the workflow should run and print the container memory. Something like this: `Total memory is MemTotal:        7113128 kB`.
+
+
+
+## Connecting GitHub to Azure
+
+### Lesson Overview
+
+1. **GitHub Secrets**
+   - Inside the repo there is a place to store credentials, secrets and tokens;
+2. **Secrets in Workflow**
+
+
+
+### Lab Itself
+
+Create a new empty GitHub repo.
+
+After, install the Azure CLI:
+
+```bash
+# install azure cli on code server
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+
+sudo sh -c 'echo -e "[azure-cli]
+name=Azure CLI
+baseurl=https://packages.microsoft.com/yumrepos/azure-cli
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/azure-cli.repo'
+
+sudo yum install azure-cli
+
+# login to azure
+az login
+
+# grab just the ID in the output of az login command
+```
+
+With the ID from the output of the `az login` command, store it in a *secret* inside the repo called `AZURE_SUBSCRIPTION_ID`.
+
+Now let's use a *service principal* for the authentication. In order to create one, run the following command:
+
+```bash
+az ad sp create-for-rbac --name "GitHub-Actions" \
+--role contributor \
+--scopes /subscriptions/{subscription-id} \
+--sdk-auth
+```
+
+Copy the full output of the command and create a new secret called `AZURE_CREDENTIALS`.
+
+#### Create App Service App
+
+- Login to Azure portal;
+- Create an **App Service Plan**;
+  - Leave settings default, just ensure the tier is **F1 (Free)**;
+- Create an **App Service App** with the previous plan;
+  - Leave settings default;
+  - Select Node.js 16 and Linux;
+- With the App created, select the *Get publish profile* and add the final GitHub secret `AZURE_WEBAPP_PUBLISH_PROFILE`;
+
+
+
+## Continuous Deployment to Azure
+
+To build on the previous lab and do continuous deployment to Azure, let's create a sample node app to upload.
+
+In order to create this sample app, let's use the express-generator:
+
+```bash
+# Install the Express Generator
+sudo npm install -g express-generator
+
+# Create the sample node app
+express --view pug --git ~/git_projects/dpuga-myExpressApp
+
+# Install the required dependencies
+cd ~/git_projects/dpuga-myExpressApp
+npm install
+
+# Test run the app
+DEBUG=dpuga-myexpressapp:* npm start
+```
+
+Now commit the generated code to the repo.
+
+### Setup Workflows
+
+Add the following workflow file to the GitHub workflows folder:
+
+```yaml
+# ~/git_projects/dpuga-myExpressApp/.github/workflows/azureupdown.yaml
+# Workflow Name
+name: Azure environment up
+
+# This workflow will trigger on a PR being labeled either:
+# 	'azure up' or 'azure down'
+on:
+  pull_request:
+    types: [labeled]
+
+# Variables with Azure information that will be used to spin up new environment in Azure
+env:
+  # Must be unique inside subscription
+  AZURE_RESOURCE_GROUP: "pncoelho-dpuga-myessentialapp_rgroup"
+  # Must be unique inside subscription
+  AZURE_APP_PLAN: "pncoelho-dpuga-myessentialapp_asplan"
+  AZURE_LOCATION: '"Central US"'
+  # Must be unique globally
+  AZURE_WEBAPP_NAME: "pncoelho-dpuga-myessentialapp"
+
+jobs:
+  # This job is the one that sets up the Azure App Service App
+  setup-up-azure-resources:
+    runs-on: ubuntu-latest
+
+    # Only runs on a PR that's labelled 'azure up'
+    if: contains(github.event.pull_request.labels.*.name, 'azure up')
+
+    steps:
+      # Checks out the code from the Repo
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Login to Azure using the previous secret
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Create Azure resource group
+        if: success()
+        run: |
+          az group create --location ${{env.AZURE_LOCATION}} --name ${{env.AZURE_RESOURCE_GROUP}} --subscription ${{secrets.AZURE_SUBSCRIPTION_ID}}
+      - name: Create Azure app service plan
+        if: success()
+        run: |
+          az appservice plan create --resource-group ${{env.AZURE_RESOURCE_GROUP}} --name ${{env.AZURE_APP_PLAN}} --is-linux --sku F1 --subscription ${{secrets.AZURE_SUBSCRIPTION_ID}}
+      - name: Create webapp resource
+        if: success()
+        run: |
+          az webapp create -g ${{ env.AZURE_RESOURCE_GROUP }} -p ${{ env.AZURE_APP_PLAN }} -n ${{ env.AZURE_WEBAPP_NAME }} --runtime "node|16-lts" --subscription ${{secrets.AZURE_SUBSCRIPTION_ID}}
+
+  # This job is the one that tears down the Azure App Service App
+  destroy-azure-resources:
+    runs-on: ubuntu-latest
+
+    # Only runs on a PR that's labelled 'azure down'
+    if: contains(github.event.pull_request.labels.*.name, 'azure down')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Destroy Azure environment
+        if: success()
+        run: |
+          az group delete --name ${{env.AZURE_RESOURCE_GROUP}} --subscription ${{secrets.AZURE_SUBSCRIPTION_ID}} --yes
+```
+
+With this done, create a PR with the label `àzure up` to start the infrastructure.
+
+Now that the infrastructure is up, we can create and use a workflow to build and deploy the application to the Web App:
+
+```yaml
+# ~/git_projects/dpuga-myExpressApp/.github/workflows/buildandpublish.yaml
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: "pncoelho-dpuga-myessentialapp"
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
+  NODE_VERSION: '16.x'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+
+    - name: npm install, build, and test
+      run: |
+        npm install
+        npm run build --if-present
+        npm run test --if-present
+
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: node-app
+        path: .
+
+  deploy:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Development'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+        name: node-app
+
+    - name: 'Deploy to Azure WebApp'
+      id: deploy-to-webapp 
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+```
+
+Just commit this workflow and it will start running.
+
+To tear the Azure infra down, just go to the PR if it's still opened and add the tag `azure down`.
