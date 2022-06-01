@@ -147,6 +147,55 @@ Other ones include: Issues; Releases; and more;
 
 ### Building in Workflows
 
+1. Good first step
+   - First step with most code is to build it.
+   - Specifics will vary depending on language and framework;
+2. Python doens't need to be 'build'
+   - But, bundling libraries can reduce latency, streamline auditing, and support Lambda in private VPCs;
+3. Using Pip
+   - we will use Pip to install our libraries;
+
 ### Environment Variables
 
+There are a lot of environment variables that can be used during the workflow.
+
+These variables can be used for conditional execution, or for dynamic naming.
+
+Some of these variables are as follows:
+
+- Repository Information
+  - Repository Name;
+  - Repository URL;
+- Event Information
+  - Initiating Event;
+  - Initiating User;
+- Commit Information
+  - Commit SHA;
+  - Git Branch;
+  - Head;
+- Job Information
+  - Run ID;
+  - Run Number;
+  - Job ID;
+  - Action ID;
+- Server Information
+  - GitHub Server URL;
+  - API URL;
+  - GraphQL URL;
+- Runner Information
+  - Runner Operating System;
+  - Temp Directory;
+  - Tool Cache;
+
 ### Steps Breakdown
+
+The pipeline will be composed of 5 steps:
+
+1. Check out the code to the Runner;
+2. Configure Python on Runner;
+3. Install the required libraries;
+4. Create a zipped bundle;
+5. Upload/store the artifact;
+
+
+
