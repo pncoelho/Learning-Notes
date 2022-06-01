@@ -199,3 +199,45 @@ The pipeline will be composed of 5 steps:
 
 
 
+## Storing Your Artifact
+
+### We've Built the Code, Now What?
+
+The build code can be stored in any storage option that has programatic access. For example:
+
+- Sonatype Nexus;
+- JFrog Artifactory;
+- Cloud Storage Buckets (S3);
+- GitHub Artifacts;
+
+### What is GitHub Packages?
+
+Stores artifacts close to the code.
+
+- One stop for all packages;
+- Manage by REST API;
+- Public Artifacts are free to store;
+
+### What Kinds of Artifacts?
+
+GitHub Packages supports:
+
+- Container registry;
+- Ruby gems;
+- Node modules;
+- Maven registry;
+- Gradle registry;
+- NuGet;
+
+If the artifact is not of one of these types, it can still be stored as a **release asset**.
+
+### How to Publish a Package?
+
+### What About Our Artifact?
+
+### LAB
+
+The lab content can be found in the *Lab* branch of the repository [content-github-actions-deep-dive-lesson](https://github.com/pncoelho/content-github-actions-deep-dive-lesson).
+
+
+
